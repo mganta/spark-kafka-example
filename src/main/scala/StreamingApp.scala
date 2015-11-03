@@ -43,7 +43,10 @@ object StreamingApp extends App {
   //convert to avro
   val avroEvents = parsedEvents.map(event => (generateAvroEventArrays(event), NullWritable.get))
 
-  //save as a hadoop file
+  //print data
+  avroEvents.print
+  
+  //optionally, save as a hadoop file
   avroEvents.saveAsNewAPIHadoopFiles("/tmp/output/data", null, classOf[AvroKey[SomeEvent]], classOf[NullWritable], classOf[AvroKeyOutputFormat[SomeEvent]], job.getConfiguration)
 
   //start streaming
